@@ -12,9 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: List files in root after checkout
-        run: ls -la
-
       - name: Checkout repo
         uses: actions/checkout@v3
 
