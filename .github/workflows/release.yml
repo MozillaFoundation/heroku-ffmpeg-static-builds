@@ -5,6 +5,7 @@ on:
     paths:
       - 'ffmpeg-*-webp.tar.xz'
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   release:
