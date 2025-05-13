@@ -17,5 +17,6 @@ jobs:
 
       - name: Run release script
         run: ./scripts/release.sh
+        working-directory: ${{ github.workspace }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
