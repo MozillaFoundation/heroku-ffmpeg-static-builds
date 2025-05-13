@@ -14,23 +14,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up GitHub CLI
-        uses: cli/cli-action@v2
-
-      - name: Find latest tarball and extract version
-        id: vars
-        run: |
-          file=$(ls -1t ffmpeg-*-webp.tar.xz | head -n1)
-          echo "Found file: $file"
-          echo "filename=$file" >> $GITHUB_OUTPUT
-          version=$(echo "$file" | sed -E 's/^ffmpeg-(.*)-webp.tar.xz$/\1/' | tr '+' '-')
-          echo "version=$version" >> $GITHUB_OUTPUT
-
-      - name: Create GitHub Release
-        run: |
-          gh release create v${{ steps.vars.outputs.version }} \
-            ${{ steps.vars.outputs.filename }} \
-            --title "FFmpeg ${{ steps.vars.outputs.version }}" \
-            --notes "Auto-generated FFmpeg build from Docker container."
+      - name: Run release script
+        run: ./scripts/release.sh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
