@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Build the image with shared libraries
-echo "🛠️ Building ffmpeg image with shared libs..."
-docker build -f Dockerfile -t ffmpeg-shared .
+# Use buildx and target amd64 platform for Heroku compatibility
+docker buildx create --name ffmpeg-builder --use >/dev/null 2>&1 || docker buildx use ffmpeg-builder
+
+echo "Building ffmpeg image for linux/amd64..."
+docker buildx build --platform linux/amd64 -f Dockerfile -t ffmpeg-shared --load .
 
 # Run ffmpeg in a one-off container to extract version
-echo "🔍 Detecting version from built binary..."
+echo "Detecting version from built binary..."
 output=$(docker run --rm ffmpeg-shared ffmpeg -version)
 echo "$output"
 version=$(echo "$output" | head -n1 | awk '{ print $3 }')
@@ -29,4 +31,4 @@ echo "Creating tarball: $tarball"
 tar -cJf "$tarball" bin
 rm -rf bin
 
-echo "Done. Created $tarball with ffmpeg and ffprobe"
+echo "Done. Created $tarball"
