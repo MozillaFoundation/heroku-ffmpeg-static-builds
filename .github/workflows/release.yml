@@ -3,7 +3,7 @@ name: Publish FFmpeg Binary
 on:
   push:
     paths:
-      - 'ffmpeg-*-webp.tar.xz'
+      - 'ffmpeg-*.tar.xz'
     branches: [main]
   workflow_dispatch:
 

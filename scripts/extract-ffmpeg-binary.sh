@@ -12,7 +12,7 @@ echo "Detecting version from built binary..."
 output=$(docker run --rm ffmpeg-shared ffmpeg -version)
 echo "$output"
 version=$(echo "$output" | head -n1 | awk '{ print $3 }')
-tarball="ffmpeg-${version}-webp.tar.xz"
+tarball="ffmpeg-${version}.tar.xz"
 
 # Create a container just to copy the binaries
 container_id=$(docker create ffmpeg-shared)
