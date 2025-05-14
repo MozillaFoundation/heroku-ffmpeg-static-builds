@@ -17,18 +17,18 @@ tarball="ffmpeg-${version}.tar.xz"
 # Create a container just to copy the binaries
 container_id=$(docker create ffmpeg-shared)
 
-# Copy ffmpeg and ffprobe into a bin/ directory
-mkdir -p bin
-docker cp "$container_id":/usr/local/bin/ffmpeg ./bin/ffmpeg
-docker cp "$container_id":/usr/local/bin/ffprobe ./bin/ffprobe
-chmod +x ./bin/ffmpeg ./bin/ffprobe
+# Copy ffmpeg and ffprobe into an ffmpeg-{version}/bin/ directory
+mkdir -p "ffmpeg-${version}/bin"
+docker cp "$container_id":/usr/local/bin/ffmpeg "ffmpeg-${version}/bin/ffmpeg"
+docker cp "$container_id":/usr/local/bin/ffprobe "ffmpeg-${version}/bin/ffprobe"
+chmod +x "ffmpeg-${version}/bin/ffmpeg" "ffmpeg-${version}/bin/ffprobe"
 
 # Clean up container
 docker rm "$container_id" >/dev/null
 
 # Package it
 echo "Creating tarball: $tarball"
-tar -cJf "$tarball" bin
-rm -rf bin
+tar -cJf "ffmpeg-${version}.tar.xz" "ffmpeg-${version}"
+rm -rf "ffmpeg-${version}"
 
 echo "Done. Created $tarball"
