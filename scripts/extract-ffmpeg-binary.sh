@@ -9,22 +9,24 @@ docker build -f Dockerfile -t ffmpeg-shared .
 echo "🔍 Detecting version from built binary..."
 output=$(docker run --rm ffmpeg-shared ffmpeg -version)
 echo "$output"
-version=$(docker run --rm ffmpeg-shared ffmpeg -version | awk '/ffmpeg version/ { print $3; exit }')
+version=$(echo "$output" | head -n1 | awk '{ print $3 }')
 tarball="ffmpeg-${version}-webp.tar.xz"
 
-# Create a container just to copy the binary
+# Create a container just to copy the binaries
 container_id=$(docker create ffmpeg-shared)
 
-echo "📥 Copying /usr/local/bin/ffmpeg to ./${tarball%.tar.xz}"
-docker cp "$container_id":/usr/local/bin/ffmpeg ./${tarball%.tar.xz}
+# Copy ffmpeg and ffprobe into a bin/ directory
+mkdir -p bin
+docker cp "$container_id":/usr/local/bin/ffmpeg ./bin/ffmpeg
+docker cp "$container_id":/usr/local/bin/ffprobe ./bin/ffprobe
+chmod +x ./bin/ffmpeg ./bin/ffprobe
 
 # Clean up container
 docker rm "$container_id" >/dev/null
-chmod +x ./${tarball%.tar.xz}
 
 # Package it
-echo "📦 Creating tarball: $tarball"
-tar -cJf "$tarball" "${tarball%.tar.xz}"
-rm "${tarball%.tar.xz}"
+echo "Creating tarball: $tarball"
+tar -cJf "$tarball" bin
+rm -rf bin
 
-echo "✅ Done. Created $tarball"
+echo "Done. Created $tarball with ffmpeg and ffprobe"

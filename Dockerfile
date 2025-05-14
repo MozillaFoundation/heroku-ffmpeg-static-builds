@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /build
 
-RUN git clone --depth=1 --branch n5.1.6 https://github.com/ffmpeg/ffmpeg.git
+RUN git clone --depth=1 https://github.com/ffmpeg/ffmpeg.git -b n5.1.6
 
 WORKDIR /build/ffmpeg
 
@@ -19,13 +19,15 @@ RUN ./configure \
   --disable-doc \
   --disable-debug \
   --disable-ffplay \
-  --disable-ffprobe && \
+  --enable-ffprobe && \
   make -j"$(nproc)" && \
   make install
 
 FROM debian:bookworm-slim
 
 COPY --from=builder /opt/ffmpeg/bin/ffmpeg /usr/local/bin/ffmpeg
+COPY --from=builder /opt/ffmpeg/bin/ffprobe /usr/local/bin/ffprobe
+
 RUN apt-get update && apt-get install -y \
     libwebpmux3 libwebp7 libwebpdemux2 && \
     rm -rf /var/lib/apt/lists/*

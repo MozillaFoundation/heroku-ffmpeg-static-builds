@@ -6,3 +6,5 @@ docker build -f Dockerfile -t ffmpeg-static .
 
 ## Extract the binary and package into project root
 ./scripts/extract-ffmpeg-binary.sh
+
+## Push new package to generate a release via release.yml
