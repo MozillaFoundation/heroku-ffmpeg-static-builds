@@ -3,6 +3,8 @@ Contains static builds of ffmpeg or use in buildpacks. Provides example commands
 
 Will automatically create a new release if a new package is detected. Will not overwrite existing releases & tags. Manually delete the existing release & tag and re-run the Github Action.
 
+Update the buildpack in the buildpack repo (https://github.com/MozillaFoundation/heroku-ffmpeg-buildpack), and create a new release for heroku to target.
+
 ## Build static binary from source
 docker build -f Dockerfile -t ffmpeg-static .
 
