@@ -1,7 +1,7 @@
 # heroku-ffmpeg-static-builds
 
 ## Description
-Contains static builds of ffmpeg or use in buildpacks. Provides example commands to build a package from source. Alternatively, download & commit a static x64 build from a trusted source if it contains webp codecs (i.e. [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)). Push new package to generate a release via release.yml
+Contains static builds of ffmpeg or use in buildpacks. Provides example commands to build a package from source. Alternatively, download & commit a static x64 build from a trusted source if it contains webp codecs (i.e. [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)). Must be a static build, not a shared build. Push new package to generate a release via release.yml
 
 ## Build static binary from source
 docker build -f Dockerfile -t ffmpeg-static .
