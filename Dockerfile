@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /build
 
-RUN git clone --depth=1 https://github.com/ffmpeg/ffmpeg.git -b n5.1.6
+# via https://github.com/FFmpeg/FFmpeg/tags
+RUN git clone --depth=1 https://github.com/ffmpeg/ffmpeg.git -b n6.1.2
 
 WORKDIR /build/ffmpeg
 
