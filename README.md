@@ -5,10 +5,11 @@ Contains static builds of ffmpeg or use in buildpacks. Provides example commands
 
 ## Build static binary from source
 For a lighter weight build, review the Dockerfile for version and build a static from source.
-docker build -f Dockerfile -t ffmpeg-static .
+
+`docker build -f Dockerfile -t ffmpeg-static .`
 
 ## Extract the binary and package into project root
-./scripts/extract-ffmpeg-binary.sh
+`./scripts/extract-ffmpeg-binary.sh`
 
 ## Releasing
 The repo will automatically create a new release via Github actions if a new package is committed. But it will not overwrite existing releases & tags. You will have to manually delete the existing release & tag and re-run the Github Action in order to release a new version of the same name.
